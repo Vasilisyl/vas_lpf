@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir ./build
+mkdir ./build/include
+mkdir ./build/libs
+
+cp ./vasDefined.h ./vasPlugin.h ./vasPluginContext.h ./build/include
+
+cmake CMakeLists.txt
+
+make
+
+echo "generate finished !"

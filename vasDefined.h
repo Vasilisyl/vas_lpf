@@ -9,15 +9,16 @@
 #endif
         
 /*vasPlugins Construct*/
-#ifndef VAS_CONSTRUCT_PLUGIN
-    #define VAS_CONSTRUCT_PLUGIN(ClassName, pgId) \
-        ClassName(const std::string &pgId) : vasPlugins(pgId) {}
+#ifndef VAS_PLUGIN
+    #define VAS_PLUGIN(ClassName, pluginId) \
+        ClassName(const std::string &pgId) : vasPlugin(pgId) {} \
+        ~ClassName() {}
 #endif
 
 /*Add VAS_REGIST_PLUGIN_ID to the end of CPP file*/
 #ifndef VAS_REGIST_PLUGIN_ID
     #define VAS_REGIST_PLUGIN_ID(ClassName, pgId) \
-        extern "C" vasPlugins *createPlugin() \
+        extern "C" vasPlugin *createPlugin() \
         { \
             return new ClassName(pgId); \
         }

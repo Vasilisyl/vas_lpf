@@ -33,7 +33,7 @@ vasPluginContext *vasPluginContext::getInstance()
     return s_pInstance;
 }
 
-std::string vasPluginContext::install(const std::string& pluginPath, std::string* pErrStr)
+std::string vasPluginContext::install(const std::string& pluginPath, std::string *pErrStr)
 {
     std::string pgId;
     do {
@@ -122,6 +122,7 @@ bool vasPluginContext::startPlugin(const std::string &pluginId, std::string *pEr
             case VAS::VAS_PS_INSTALLED:
             case VAS::VAS_PS_STOPPING:
                 pluginInfo._pPlugin->start();
+                pluginInfo._state = VAS::VAS_PS_STARTING;
                 rslt = true;
                 break;
             case VAS::VAS_PS_UNINSTALLED:
@@ -151,6 +152,7 @@ bool vasPluginContext::stopPlugin(const std::string& pluginId, std::string *pErr
         switch (pluginInfo._state) {
             case VAS::VAS_PS_STARTING:
                 pluginInfo._pPlugin->stop();
+                pluginInfo._state = VAS::VAS_PS_STOPPING;
                 rslt = true;
                 break;
             case VAS::VAS_PS_INSTALLED:

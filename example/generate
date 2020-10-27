@@ -1,7 +1,21 @@
 #!/bin/bash
 
+
+
+echo "start generating plugin.test !"
+
+cd plugin_test
+
+./generate
+
+echo "finish generating plugin.test !"
+
+echo "start generating example main !"
+
+cd ../
+
 cmake CMakeLists.txt
 
 make
 
-echo "generate finished !"
+echo "finsih generating example main !"

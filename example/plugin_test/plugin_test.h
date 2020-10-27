@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../vasPlugin.h"
+#include "vasPlugin.h"
 
 class Test;
 

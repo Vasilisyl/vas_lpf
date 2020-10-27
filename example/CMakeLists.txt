@@ -7,6 +7,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./build)
 
 add_executable(example ./main.cpp)
 
-link_directories(/home/wangmaobo/workspace/my.project/vasLitePluginsFramework/build/libs)
+include_directories(../build/include)
 
-target_link_libraries(example vas_lpf dl)
+find_library(VAS_LIBPATH vas_lpf ${PROJECT_SOURCE_DIR}/../build/libs)
+
+target_link_libraries(example ${VAS_LIBPATH} dl)

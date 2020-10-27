@@ -1,5 +1,17 @@
 #!/bin/bash
 
+echo "start clearing plugin.test !"
+
+cd plugin_test
+
+./clear
+
+echo "finish clearing plugin.test !"
+
+echo "start clearing example main !"
+
+cd ../
+
 rm -r build/ CMakeCache.txt CMakeFiles/ cmake_install.cmake Makefile
 
-echo "clear finished !"
+echo "finish clearing example main !"

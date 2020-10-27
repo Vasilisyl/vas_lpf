@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../vasPluginContext.h"
+#include "vasPluginContext.h"
 
 int main(int argc, char *argv[])
 {

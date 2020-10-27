@@ -7,8 +7,14 @@
         ClassName(const ClassName &) = delete; \
         ClassName &operator=(const ClassName &) = delete;
 #endif
-        
-/*vasPlugins Construct*/
+
+/**
+ * @brief VAS_PLUGIN 插件的构造
+ *        在插件vasPlugin的派生类中必须使用此宏来替代构造函数
+ * @example: 
+ *        VAS_PLUGIN(PluginTest, "plugin.test")
+ *        其中PluginTest为类名，"plugin.test"为该插件ID
+ */
 #ifndef VAS_PLUGIN
     #define VAS_PLUGIN(ClassName, pluginId) \
         ClassName(const std::string &pgId) : vasPlugin(pgId) {} \
@@ -16,6 +22,13 @@
 #endif
 
 /*Add VAS_REGIST_PLUGIN_ID to the end of CPP file*/
+/**
+ * @brief VAS_REGIST_PLUGIN_ID 插件的注册
+ *        必须在插件vasPlugin的派生类cpp文件的末尾使用VAS_REGIST_PLUGIN_ID
+ * @example:
+ *        VAS_REGIST_PLUGIN_ID(PluginTest, "plugin.test")
+ *        其中PluginTest为类名，"plugin.test"为该插件ID
+ */
 #ifndef VAS_REGIST_PLUGIN_ID
     #define VAS_REGIST_PLUGIN_ID(ClassName, pgId) \
         extern "C" vasPlugin *createPlugin() \
@@ -24,7 +37,6 @@
         }
 #endif
 
-/*error set*/
 #ifndef VAS_ERROR_SET
     #define VAS_ERROR_SET(pStr, error) \
         if (pStr && error) { *pStr = std::string("[ERROR] ") + error; }

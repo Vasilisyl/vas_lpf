@@ -13,6 +13,7 @@
  */
 class vasPluginContext final
 {
+    VAS_DISABLED_COPY(vasPluginContext)
     vasPluginContext();
 public:
     ~vasPluginContext();

@@ -2,6 +2,8 @@
 
 #include <string>
 
+/*** macro ***/
+
 #ifndef VAS_DISABLED_COPY
     #define VAS_DISABLED_COPY(ClassName) \
         ClassName(const ClassName &) = delete; \
@@ -54,10 +56,11 @@
         if (pStr) { *pStr = std::string(""); }
 #endif /*VAS_EMPTY_STR_SET*/
 
+/*** declaration ***/
 class  vasPlugin;
 
 namespace VAS {
-/*enums*/
+/*** enums ***/
 enum vasPluginState_Em {
     VAS_PS_UNINSTALLED = 0,
     VAS_PS_INSTALLED,
@@ -65,7 +68,7 @@ enum vasPluginState_Em {
     VAS_PS_STOPPING,
 };
 
-/*structs*/
+/*** structs ***/
 struct vasPluginInfo_St
 {
     vasPluginInfo_St()

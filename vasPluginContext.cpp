@@ -35,6 +35,7 @@ vasPluginContext *vasPluginContext::getInstance()
 
 std::string vasPluginContext::install(const std::string& pluginPath, std::string *pErrStr)
 {
+    VAS_EMPTY_STR_SET(pErrStr);
     std::string pgId;
     do {
         if (pluginPath.empty()) { 
@@ -78,6 +79,7 @@ std::string vasPluginContext::install(const std::string& pluginPath, std::string
 
 bool vasPluginContext::uninstall(const std::string &pluginId, std::string *pErrStr)
 {
+    VAS_EMPTY_STR_SET(pErrStr);
     bool rslt = false;
     do {
         
@@ -103,6 +105,8 @@ bool vasPluginContext::uninstall(const std::string &pluginId, std::string *pErrS
         pluginInfo._pHandle = nullptr;
         pluginInfo._pluginPath.clear();
         pluginInfo._state = VAS::VAS_PS_UNINSTALLED;
+
+        rslt = true;
         
     } while (0);
     return rslt;
@@ -110,6 +114,7 @@ bool vasPluginContext::uninstall(const std::string &pluginId, std::string *pErrS
 
 bool vasPluginContext::startPlugin(const std::string &pluginId, std::string *pErrStr)
 {
+    VAS_EMPTY_STR_SET(pErrStr);
     bool rslt = false;
     do {
         if (m_pluginsMap.find(pluginId) == m_pluginsMap.end()) {
@@ -141,6 +146,7 @@ bool vasPluginContext::startPlugin(const std::string &pluginId, std::string *pEr
 
 bool vasPluginContext::stopPlugin(const std::string& pluginId, std::string *pErrStr)
 {
+    VAS_EMPTY_STR_SET(pErrStr);
     bool rslt = false;
     do {
         if (m_pluginsMap.find(pluginId) == m_pluginsMap.end()) {

@@ -6,7 +6,7 @@
     #define VAS_DISABLED_COPY(ClassName) \
         ClassName(const ClassName &) = delete; \
         ClassName &operator=(const ClassName &) = delete;
-#endif
+#endif /*VAS_DISABLED_COPY*/
 
 /**
  * @brief VAS_PLUGIN 插件的构造
@@ -19,9 +19,8 @@
     #define VAS_PLUGIN(ClassName, pluginId) \
         ClassName(const std::string &pgId) : vasPlugin(pgId) {} \
         ~ClassName() {}
-#endif
+#endif /*VAS_PLUGIN*/
 
-/*Add VAS_REGIST_PLUGIN_ID to the end of CPP file*/
 /**
  * @brief VAS_REGIST_PLUGIN_ID 插件的注册
  *        必须在插件vasPlugin的派生类cpp文件的末尾使用VAS_REGIST_PLUGIN_ID
@@ -35,18 +34,25 @@
         { \
             return new ClassName(pgId); \
         }
-#endif
+#endif /*VAS_REGIST_PLUGIN_ID*/
 
+/*error set*/
 #ifndef VAS_ERROR_SET
     #define VAS_ERROR_SET(pStr, error) \
         if (pStr && error) { *pStr = std::string("[ERROR] ") + error; }
-#endif
+#endif /*VAS_ERROR_SET*/
 
 /*info set*/
 #ifndef VAS_INFO_SET
     #define VAS_INFO_SET(pStr, info) \
         if (pStr && info) { *pStr = std::string("[INFO] ") + info; }
-#endif
+#endif /*VAS_INFO_SET*/
+
+/*empty string*/
+#ifndef VAS_EMPTY_STR_SET
+    #define VAS_EMPTY_STR_SET(pStr) \
+        if (pStr) { *pStr = std::string(""); }
+#endif /*VAS_EMPTY_STR_SET*/
 
 class  vasPlugin;
 

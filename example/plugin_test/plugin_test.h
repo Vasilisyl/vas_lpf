@@ -4,7 +4,7 @@
 
 class Test;
 
-class PluginTest : public vasPlugin
+class PluginTest : public VAS::vasPlugin
 {
 public:
     VAS_PLUGIN(PluginTest, "plugin.test")

@@ -10,6 +10,8 @@ extern "C" {
 }
 #endif
 
+using namespace VAS;
+
 typedef vasPlugin *(*P_CREATE_PLUGIN_FUNC)();
 
 vasPluginContext::vasPluginContext()

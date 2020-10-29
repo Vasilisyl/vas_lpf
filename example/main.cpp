@@ -1,6 +1,8 @@
 #include <iostream>
 #include "vasPluginContext.h"
 
+using namespace VAS;
+
 int main(int argc, char *argv[])
 {
     std::cout << "install ......" << std::endl;

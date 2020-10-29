@@ -50,6 +50,8 @@
  * 
  */
 
+namespace VAS {
+
 class vasPlugin
 {
     VAS_DISABLED_COPY(vasPlugin)
@@ -79,3 +81,5 @@ public:
 private:
     const std::string m_pgId;
 };
+
+} /*namespace VAS*/

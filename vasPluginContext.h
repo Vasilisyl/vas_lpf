@@ -6,7 +6,9 @@
 
 /*获取框架上下文实例*/
 #define VAS_PLUGIN_CONTEXT \
-    vasPluginContext::getInstance()
+    VAS::vasPluginContext::getInstance()
+
+namespace VAS {
     
 /**
  * @brief 框架上下文类
@@ -56,4 +58,4 @@ private:
     std::map<std::string, VAS::vasPluginInfo_St> m_pluginsMap;
 };
 
-
+} /*namespace VAS*/

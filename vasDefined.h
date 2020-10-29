@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <string>
 
 /*** macro ***/
@@ -19,7 +20,7 @@
  */
 #ifndef VAS_PLUGIN
     #define VAS_PLUGIN(ClassName, pluginId) \
-        ClassName(const std::string &pgId) : vasPlugin(pgId) {} \
+        ClassName(const std::string &pgId) : VAS::vasPlugin(pgId) {} \
         ~ClassName() {}
 #endif /*VAS_PLUGIN*/
 
@@ -32,7 +33,7 @@
  */
 #ifndef VAS_REGIST_PLUGIN_ID
     #define VAS_REGIST_PLUGIN_ID(ClassName, pgId) \
-        extern "C" vasPlugin *createPlugin() \
+        extern "C" VAS::vasPlugin *createPlugin() \
         { \
             return new ClassName(pgId); \
         }
@@ -56,10 +57,13 @@
         if (pStr) { *pStr = std::string(""); }
 #endif /*VAS_EMPTY_STR_SET*/
 
-/*** declaration ***/
-class  vasPlugin;
 
+/*namespace VAS*/
 namespace VAS {
+
+/*** declaration ***/
+class vasPlugin;
+
 /*** enums ***/
 enum vasPluginState_Em {
     VAS_PS_UNINSTALLED = 0,

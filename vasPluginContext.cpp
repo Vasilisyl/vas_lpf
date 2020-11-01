@@ -10,21 +10,19 @@ extern "C" {
 }
 #endif
 
-using namespace VAS;
+typedef VAS::vasPlugin *(*P_CREATE_PLUGIN_FUNC)();
 
-typedef vasPlugin *(*P_CREATE_PLUGIN_FUNC)();
-
-vasPluginContext::vasPluginContext()
+VAS::vasPluginContext::vasPluginContext()
 {
     
 }
 
-vasPluginContext::~vasPluginContext()
+VAS::vasPluginContext::~vasPluginContext()
 {
     
 }
 
-vasPluginContext *vasPluginContext::getInstance()
+VAS::vasPluginContext *VAS::vasPluginContext::getInstance()
 {
     static vasPluginContext *s_pInstance = nullptr;
     static std::mutex s_mutex;
@@ -35,7 +33,7 @@ vasPluginContext *vasPluginContext::getInstance()
     return s_pInstance;
 }
 
-std::string vasPluginContext::install(const std::string& pluginPath, std::string *pErrStr)
+std::string VAS::vasPluginContext::install(const std::string& pluginPath, std::string *pErrStr)
 {
     VAS_EMPTY_STR_SET(pErrStr);
     std::string pgId;
@@ -57,7 +55,7 @@ std::string vasPluginContext::install(const std::string& pluginPath, std::string
             break;
         }
         
-        vasPlugin *pPlugin = pCreate();
+        VAS::vasPlugin *pPlugin = pCreate();
         if (!pPlugin) {
             VAS_ERROR_SET(pErrStr, "get plugin info failed !");
             break;
@@ -79,7 +77,7 @@ std::string vasPluginContext::install(const std::string& pluginPath, std::string
     return pgId;
 }
 
-bool vasPluginContext::uninstall(const std::string &pluginId, std::string *pErrStr)
+bool VAS::vasPluginContext::uninstall(const std::string &pluginId, std::string *pErrStr)
 {
     VAS_EMPTY_STR_SET(pErrStr);
     bool rslt = false;
@@ -114,7 +112,7 @@ bool vasPluginContext::uninstall(const std::string &pluginId, std::string *pErrS
     return rslt;
 }
 
-bool vasPluginContext::startPlugin(const std::string &pluginId, std::string *pErrStr)
+bool VAS::vasPluginContext::startPlugin(const std::string &pluginId, std::string *pErrStr)
 {
     VAS_EMPTY_STR_SET(pErrStr);
     bool rslt = false;
@@ -146,7 +144,7 @@ bool vasPluginContext::startPlugin(const std::string &pluginId, std::string *pEr
     return rslt;
 }
 
-bool vasPluginContext::stopPlugin(const std::string& pluginId, std::string *pErrStr)
+bool VAS::vasPluginContext::stopPlugin(const std::string& pluginId, std::string *pErrStr)
 {
     VAS_EMPTY_STR_SET(pErrStr);
     bool rslt = false;

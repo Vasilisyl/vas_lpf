@@ -8,7 +8,7 @@
 namespace VAS {
 
 /**
- * @brief 通用的对象存储类，vasVariant的拷贝和赋值为深拷贝
+ * @brief vasVariant 通用的对象存储类，vasVariant的拷贝和赋值为深拷贝
  */
 class vasVariant
 {

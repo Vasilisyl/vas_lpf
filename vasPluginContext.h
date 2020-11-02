@@ -8,10 +8,15 @@
 #define VAS_PLUGIN_CONTEXT \
     VAS::vasPluginContext::getInstance()
 
+#define VAS_EVENT_HANDLER \
+    VAS::vasPluginContext::getInstance()->getEventHandler();
+
 namespace VAS {
-    
+
+class vasEventHandler;
+
 /**
- * @brief 框架上下文类
+ * @brief vasPluginContext 框架上下文类
  */
 class vasPluginContext final
 {
@@ -53,9 +58,16 @@ public:
      * @return bool        停止结果
      */
     bool stopPlugin(const std::string &pluginId, std::string *pErrStr = nullptr);
+
+    /**
+     * @brief  getEventHandler 获取事件管理器
+     * @return vasEventHandler 事件管理器指针
+     */
+    vasEventHandler *getEventHandler() { return m_pEventHandler; }
     
 private:
-    std::map<std::string, VAS::vasPluginInfo_St> m_pluginsMap;
+    vasEventHandler                              *m_pEventHandler;
+    std::map<std::string, VAS::vasPluginInfo_St>  m_pluginsMap;
 };
 
 } /*namespace VAS*/

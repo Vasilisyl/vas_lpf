@@ -5,4 +5,4 @@ project(vas_lpf)
 set(CMAKE_CXX_FLAGS "-std=c++11")
 set(LIBRARY_OUTPUT_PATH ./build/libs)
 
-add_library(vas_lpf SHARED ./vasPluginContext.cpp ./vasVariant.cpp)
+add_library(vas_lpf SHARED ./vasPluginContext.cpp ./vasVariant.cpp ./vasEvent.cpp ./vasEventHandler.cpp)

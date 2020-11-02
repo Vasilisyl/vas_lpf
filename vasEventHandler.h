@@ -1,14 +1,17 @@
 #pragma once
 
+#include <map>
 #include "vasDefined.h"
 
 namespace VAS {
 
-/**
- * @brief 事件管理器类
- */
+class vasEvent;
 
-/*管理一个组的事件*/
+typedef std::map<std::string, vasEvent *> vasEventGroup;
+
+/**
+ * @brief vasEventHandler 事件管理器类
+ */
 class vasEventHandler final
 {
     VAS_DISABLED_COPY(vasEventHandler)
@@ -16,8 +19,10 @@ public:
     vasEventHandler();
     ~vasEventHandler();
 
-    // void setGroupKey();
-    // void addEventKey();
+    void setEvent();
+
+private:
+    std::multimap<std::string, vasEventGroup> m_eventGroupMap;
 };
 
 } /*namespace VAS*/

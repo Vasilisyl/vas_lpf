@@ -1,6 +1,7 @@
 #include <mutex>
 #include "vasPluginContext.h"
 #include "vasPlugin.h"
+#include "vasEventHandler.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,13 +14,15 @@ extern "C" {
 typedef VAS::vasPlugin *(*P_CREATE_PLUGIN_FUNC)();
 
 VAS::vasPluginContext::vasPluginContext()
+    : m_pEventHandler(new VAS::vasEventHandler())
 {
     
 }
 
 VAS::vasPluginContext::~vasPluginContext()
 {
-    
+    delete m_pEventHandler;
+    m_pEventHandler = nullptr;
 }
 
 VAS::vasPluginContext *VAS::vasPluginContext::getInstance()
@@ -177,3 +180,17 @@ bool VAS::vasPluginContext::stopPlugin(const std::string& pluginId, std::string 
     return rslt;
 }
 
+void VAS::vasPluginContext::publishEvent(const std::string &groupKey, const std::string &actionKey, VAS::vasProperty property)
+{
+    m_pEventHandler->publishEvent(groupKey, actionKey, property);
+}
+
+void VAS::vasPluginContext::subscribeEvent(const std::string &groupKey, const std::string &actionKey, VAS::vasEvent event)
+{
+    m_pEventHandler->subscribeEvent(groupKey, actionKey, event);
+}
+
+void VAS::vasPluginContext::unSubscribeEvent(const std::string &groupKey, const std::string &actionKey)
+{
+    m_pEventHandler->unSubscribeEvent(groupKey, actionKey);
+}

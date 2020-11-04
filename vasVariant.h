@@ -4,13 +4,14 @@
 #include <cstdlib>
 #include <cstring>
 #include <cassert>
+#include "vasDefined.h"
 
 namespace VAS {
 
 /**
  * @brief vasVariant 通用的对象存储类，vasVariant的拷贝和赋值为深拷贝
  */
-class vasVariant
+VAS_USER_INTERFACE_CLASS vasVariant
 {
 public:
     vasVariant();

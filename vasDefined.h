@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <functional>
 
 /*** macro ***/
 
@@ -58,11 +59,34 @@
 #endif /*VAS_EMPTY_STR_SET*/
 
 
+/**
+ * @brief VAS_USER_INTERFACE_CLASS 接口类说明
+ */
+#ifndef VAS_USER_INTERFACE_CLASS
+    #define VAS_USER_INTERFACE_CLASS class
+#endif
+
+/**
+ * @brief VAS_PRIVATE_IMPL_CLASS 实现类说明
+ */
+#ifndef VAS_PRIVATE_IMPL_CLASS
+    #define VAS_PRIVATE_IMPL_CLASS class
+#endif
+
+#ifndef VAS_DECLARE_FRIEND_CONTEXT
+    #define VAS_DECLARE_FRIEND_CONTEXT friend class VAS::vasPluginContext;
+#endif
+
+
 /*namespace VAS*/
 namespace VAS {
 
 /*** declaration ***/
 class vasPlugin;
+class vasVariant;
+
+typedef std::map<std::string, VAS::vasVariant> vasProperty;
+typedef std::function<void(vasProperty)>       vasEvent;
 
 /*** enums ***/
 enum vasPluginState_Em {

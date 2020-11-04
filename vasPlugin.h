@@ -52,7 +52,7 @@
 
 namespace VAS {
 
-class vasPlugin
+VAS_USER_INTERFACE_CLASS vasPlugin
 {
     VAS_DISABLED_COPY(vasPlugin)
 public:

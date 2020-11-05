@@ -180,17 +180,17 @@ bool VAS::vasPluginContext::stopPlugin(const std::string& pluginId, std::string 
     return rslt;
 }
 
-void VAS::vasPluginContext::publishEvent(const std::string &groupKey, const std::string &actionKey, VAS::vasProperty property)
+void VAS::vasPluginContext::publishEvent(const std::string &eventKey, VAS::vasProperty property)
 {
-    m_pEventHandler->publishEvent(groupKey, actionKey, property);
+    m_pEventHandler->publishEvent(eventKey, property);
 }
 
-void VAS::vasPluginContext::subscribeEvent(const std::string &groupKey, const std::string &actionKey, VAS::vasEvent event)
+void VAS::vasPluginContext::subscribeEvent(const std::string &eventKey, VAS::vasEvent event)
 {
-    m_pEventHandler->subscribeEvent(groupKey, actionKey, event);
+    m_pEventHandler->subscribeEvent(eventKey, event);
 }
 
-void VAS::vasPluginContext::unSubscribeEvent(const std::string &groupKey, const std::string &actionKey)
+void VAS::vasPluginContext::unSubscribeEvent(const std::string &eventKey)
 {
-    m_pEventHandler->unSubscribeEvent(groupKey, actionKey);
+    m_pEventHandler->unSubscribeEvent(eventKey);
 }

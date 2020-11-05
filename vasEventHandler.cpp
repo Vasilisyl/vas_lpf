@@ -10,17 +10,27 @@ VAS::vasEventHandler::~vasEventHandler()
 
 }
 
-void VAS::vasEventHandler::publishEvent(const std::string &groupKey, const std::string &actionKey, VAS::vasProperty property)
+void VAS::vasEventHandler::publishEvent(const std::string &eventKey, VAS::vasProperty property)
 {
-    /*TODO*/
+    std::pair<VAS::vasEventMap::iterator, VAS::vasEventMap::iterator> rangePair = m_eventMap.equal_range(eventKey);
+
+    while (rangePair.first != rangePair.second) {
+
+        VAS::vasEvent &event = rangePair.first->second;
+
+        event(property);
+
+        ++(rangePair.first);
+    }
 }
 
-void VAS::vasEventHandler::subscribeEvent(const std::string &groupKey, const std::string &actionKey, VAS::vasEvent event)
+void VAS::vasEventHandler::subscribeEvent(const std::string &eventKey, VAS::vasEvent event)
 {
-    /*TODO*/
+    m_eventMap.insert(std::make_pair(eventKey, event));
 }
 
-void VAS::vasEventHandler::unSubscribeEvent(const std::string &groupKey, const std::string &actionKey)
+void VAS::vasEventHandler::unSubscribeEvent(const std::string &eventKey)
 {
     /*TODO*/
+    // event.target
 }

@@ -61,31 +61,38 @@ public:
     /* * * * * * * 2.事件接口 * * * * * * */
 
     /**
-     * @brief  publishEvent 发布事件，当事件发布时，对应使用相同的eventKey订阅的事件将被调用，并获得事件发布时的入参property
-     * @param  eventKey     事件键值，一个eventKey可对应一个或多个vasEvent
-     * @param  property     发布事件时需要传递的参数列表，vasProperty中可填充多个参数对象，以不同的参数键值区分
-     * @return bool         事件发布结果
+     * @brief  publishEvent  发布事件，当事件发布时，对应事件组中的所有事件将会触发，并获得事件发布时的入参property
+     * @param  eventGroupKey 事件组唯一键值，一个事件组中包含一个或多个事件
+     * @param  property      发布事件时需要传递的参数列表，vasProperty中可填充多个参数对象，以不同的参数键值区分
      */
-    void publishEvent(const std::string &eventKey, VAS::vasProperty property);
+    void publishEvent(const std::string &eventGroupKey, VAS::vasProperty property);
 
     /**
-     * @brief  subscribeEvent 订阅事件，当任何地方使用相同的eventKey发布事件时，该订阅事件将被调用，并获得事件发布时的入参variant
-     * @note                 （注意：subscribeEvent应该与unSubscribeEvent一一对应，如同new和delete的关系，
-     *                              subscribeEvent的调用者应当在不需要订阅事件时或析构释放时调用unSubscribeEvent取消事件的订阅）
-     * @param  eventKey       事件键值，一个eventKey可对应一个或多个vasEvent
-     * @param  event          注册的事件，事件触发时，获取到对应publishEvent传入的参数列表vasProperty
-     * @return bool           事件订阅结果
+     * @brief  publishEvent  发布事件，当事件发布时，对应事件组中的所有事件将会触发，并获得事件发布时的入参property
+     * @param  eventGroupKey 事件组唯一键值，一个事件组中包含一个或多个事件
+     * @param  eventKey      事件键值，在同一个事件组中，一个事件键值与一个事件一一对应
+     * @param  property      发布事件时需要传递的参数列表，vasProperty中可填充多个参数对象，以不同的参数键值区分
      */
-    void subscribeEvent(const std::string &eventKey, VAS::vasEvent event);
+    void publishEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasProperty property);
+
+    /**
+     * @brief  subscribeEvent 订阅事件，当任何地方发布事件时，该事件组中的所有事件将会触发，并获得事件发布时的入参property
+     * @note                  （注意：subscribeEvent应该与unSubscribeEvent一一对应，如同new和delete的关系，
+     *                               subscribeEvent的调用者应当在不需要订阅事件时或析构释放时调用unSubscribeEvent取消事件的订阅）
+     * @param  eventGroupKey  事件组唯一键值，一个事件组中包含一个或多个事件
+     * @param  eventKey       事件键值，在同一个事件组中，一个事件键值与一个事件一一对应
+     * @param  event          事件
+     */
+    void subscribeEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasEvent event);
 
     /**
      * @brief  unSubscribeEvent 取消订阅，取消指定的eventKey对应事件的订阅
-     * @note                   （注意：subscribeEvent应该与unSubscribeEvent一一对应，如同new和delete的关系，
+     * @note                    （注意：subscribeEvent应该与unSubscribeEvent一一对应，如同new和delete的关系，
      *                                subscribeEvent的调用者应当在不需要订阅事件时或析构释放时调用unSubscribeEvent取消事件的订阅）
-     * @param  eventKey         事件键值，一个eventKey可对应一个或多个vasEvent
-     * @return bool             事件取消订阅结果
+     * @param  eventGroupKey    事件组唯一键值，一个事件组中包含一个或多个事件
+     * @param  eventKey         事件键值，在同一个事件组中，一个事件键值与一个事件一一对应
      */
-    void unSubscribeEvent(const std::string &eventKey);
+    void unSubscribeEvent(const std::string &eventGroupKey, const std::string &eventKey);
     
 private:
     vasEventHandler                              *m_pEventHandler;

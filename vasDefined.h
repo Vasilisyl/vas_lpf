@@ -64,18 +64,25 @@
  */
 #ifndef VAS_USER_INTERFACE_CLASS
     #define VAS_USER_INTERFACE_CLASS class
-#endif
+#endif /*VAS_USER_INTERFACE_CLASS*/
+
+/**
+ * @brief VAS_USER_CLASS 用户类说明
+ */
+#ifndef VAS_USER_CLASS
+    #define VAS_USER_CLASS VAS_USER_INTERFACE_CLASS
+#endif /*VAS_USER_CLASS*/
 
 /**
  * @brief VAS_PRIVATE_IMPL_CLASS 实现类说明
  */
 #ifndef VAS_PRIVATE_IMPL_CLASS
     #define VAS_PRIVATE_IMPL_CLASS class
-#endif
+#endif /*VAS_PRIVATE_IMPL_CLASS*/
 
 #ifndef VAS_DECLARE_FRIEND_CONTEXT
     #define VAS_DECLARE_FRIEND_CONTEXT friend class VAS::vasPluginContext;
-#endif
+#endif /*VAS_DECLARE_FRIEND_CONTEXT*/
 
 
 /*namespace VAS*/
@@ -86,7 +93,6 @@ class vasPlugin;
 class vasVariant;
 
 typedef std::map<std::string, VAS::vasVariant> vasProperty;
-typedef std::function<void(vasProperty)>       vasEvent;
 
 /*** enums ***/
 enum vasPluginState_Em {

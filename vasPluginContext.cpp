@@ -2,6 +2,7 @@
 #include "vasPluginContext.h"
 #include "vasPlugin.h"
 #include "vasEventHandler.h"
+#include "vasEvent.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -180,22 +181,22 @@ bool VAS::vasPluginContext::stopPlugin(const std::string& pluginId, std::string 
     return rslt;
 }
 
-void VAS::vasPluginContext::publishEvent(const std::string &eventGroupKey, VAS::vasProperty property)
+void VAS::vasPluginContext::triggerEvent(const std::string &eventGroupKey, VAS::vasProperty property)
 {
-    m_pEventHandler->publishEvent(eventGroupKey, property);
+    m_pEventHandler->triggerEvent(eventGroupKey, property);
 }
 
-void VAS::vasPluginContext::publishEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasProperty property)
+void VAS::vasPluginContext::triggerEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasProperty property)
 {
-    m_pEventHandler->publishEvent(eventGroupKey, eventKey, property);
+    m_pEventHandler->triggerEvent(eventGroupKey, eventKey, property);
 }
 
-void VAS::vasPluginContext::subscribeEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasEvent event)
+void VAS::vasPluginContext::registEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasEvent event)
 {
-    m_pEventHandler->subscribeEvent(eventGroupKey, eventKey, event);
+    m_pEventHandler->registEvent(eventGroupKey, eventKey, event);
 }
 
-void VAS::vasPluginContext::unSubscribeEvent(const std::string &eventGroupKey, const std::string &eventKey)
+void VAS::vasPluginContext::unregistEvent(const std::string &eventGroupKey, const std::string &eventKey)
 {
-    m_pEventHandler->unSubscribeEvent(eventGroupKey, eventKey);
+    m_pEventHandler->unregistEvent(eventGroupKey, eventKey);
 }

@@ -10,4 +10,4 @@ cmake CMakeLists.txt
 
 make
 
-echo "generate finished !"
+echo "generate vas_lpf finished !"

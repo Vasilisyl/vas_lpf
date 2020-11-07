@@ -9,10 +9,10 @@ Test::Test(int testInt)
 
 Test::~Test()
 {
-    std::cout << "delete Test() !" << std::endl;
+    std::cout << "release Test() !" << std::endl;
 }
 
 void Test::testFunc()
 {
-    std::cout << "The Test::testInt = " << m_testInt << " !" << std::endl;
+    std::cout << "The Test::m_testInt = " << m_testInt << " !" << std::endl;
 }

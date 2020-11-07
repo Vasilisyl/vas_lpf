@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#plugin.test
+
 echo "start clearing plugin.test !"
 
 cd plugin_test
@@ -7,6 +9,18 @@ cd plugin_test
 ./clear
 
 echo "finish clearing plugin.test !"
+
+#plugin.demo
+
+echo "start clearing plugin.demo !"
+
+cd ../plugin_demo
+
+./clear
+
+echo "finish clearing plugin.demo !"
+
+#example main
 
 echo "start clearing example main !"
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+#plugin.test
 
 echo "start generating plugin.test !"
 
@@ -9,6 +9,18 @@ cd plugin_test
 ./generate
 
 echo "finish generating plugin.test !"
+
+#plugin.demo
+
+echo "start generating plugin.demo !"
+
+cd ../plugin_demo
+
+./generate
+
+echo "finish generating plugin.demo !"
+
+#example main
 
 echo "start generating example main !"
 

@@ -4,10 +4,6 @@
 #include "vasDefined.h"
 
 /**
- * @brief vasPlugin 插件接口类
- */
-
-/**
  * vasPlugin插件的创建
  * 1.插件都必须从vasPlugin类派生，并且实现start和stop接口；
  * 2.插件在头文件的声明中使用VAS_PLUGIN宏来替代插件的构造函数，例如：VAS_PLUGIN(PluginTest, "plugin.test")，其中PluginTest为类名，"plugin.test"为该插件ID；
@@ -52,6 +48,9 @@
 
 namespace VAS {
 
+/**
+ * @brief vasPlugin 插件接口类
+ */
 VAS_USER_INTERFACE_CLASS vasPlugin
 {
     VAS_DISABLED_COPY(vasPlugin)

@@ -4,4 +4,4 @@ cmake CMakeLists.txt
 
 make
 
-echo "generate plugin_test finished !"
+echo "generate plugin_test2 finished !"

@@ -3,4 +3,4 @@
 rm -r ./build ./CMakeFiles CMakeCache.txt ./cmake_install.cmake ./Makefile 
 
 
-echo "clear finished !"
+echo "clear vas_lpf finished !"

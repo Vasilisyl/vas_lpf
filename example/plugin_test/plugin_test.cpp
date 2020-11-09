@@ -6,7 +6,7 @@ void PluginTest::start()
 {
     std::cout << "start vas plugin plugin.test !" << std::endl;
     
-    m_pTest = new Test(20);
+    m_pTest = new Test();
 }
 
 void PluginTest::stop()
@@ -17,7 +17,7 @@ void PluginTest::stop()
     m_pTest = nullptr;
 }
 
-VAS_REGIST_PLUGIN_ID(PluginTest, "plugin.test")
+VAS_REGIST_PLUGIN_ID(PluginTest, "plugin.test") /*VAS_REGIST_PLUGIN_ID注册为一个插件，插件ID为"plugin.test"*/
 
 
 

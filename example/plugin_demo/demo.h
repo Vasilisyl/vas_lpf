@@ -5,14 +5,9 @@
 class Demo
 {
 public:
-    Demo(int demoInt);
+    Demo();
     ~Demo();
-    
-    void demoFunc();
 
     /*demo's event*/
     void demoEvent(VAS::vasProperty property);
-    
-private:
-    int m_demoInt;
 };

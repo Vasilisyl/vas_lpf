@@ -3,11 +3,8 @@
 class Test
 {
 public:
-    Test(int testInt);
+    Test();
     ~Test();
     
-    void testFunc();
-    
-private:
-    int m_testInt;
+    void doTriggered();
 };

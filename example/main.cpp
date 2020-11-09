@@ -1,60 +1,99 @@
 #include <iostream>
+#include <vector>
 #include "vasPluginContext.h"
 
-using namespace VAS;
+/*批量安装插件*/
+std::vector<std::string> installPlugins(const std::vector<std::string> &pluginPathVec);
 
-void test(const std::string &pluginPath);
+/*批量启动插件*/
+void startPlugins(const std::vector<std::string> &pluginIdVec);
+
+/*批量停止插件*/
+void stopPlugins(const std::vector<std::string> &pluginIdVec);
+
+/*批量卸载插件*/
+void uninstallPlugins(const std::vector<std::string> &pluginIdVec);
 
 int main(int argc, char *argv[])
 {
     std::cout << "install ......" << std::endl;
 
-    /*测试插件plugin_demo*/
-    test("./plugin_demo/build/libplugin_demo.so");
-    /*测试插件plugin_test*/
-    test("./plugin_test/build/libplugin_test.so");
+    std::vector<std::string> pluginPathVec;
+    pluginPathVec.push_back("./plugin_demo/build/libplugin_demo.so"); /*测试插件plugin.demo*/
+    pluginPathVec.push_back("./plugin_test/build/libplugin_test.so"); /*测试插件plugin.test*/
+
+    /*安装插件*/
+    std::vector<std::string> pluginIdVec = ::installPlugins(pluginPathVec);
+    if (pluginIdVec.empty()) {
+        return -1;
+    }
+
+    /*启动插件*/
+    /*plugin.test插件将在启动时通过触发事件的方式，完成与plugin.demo插件之间的数据交互*/
+    ::startPlugins(pluginIdVec);
+
+    /*停止插件*/
+    ::stopPlugins(pluginIdVec);
+
+    /*卸载插件*/
+    ::uninstallPlugins(pluginIdVec);
     
     return 0;
 }
 
-void test(const std::string &pluginPath)
+std::vector<std::string> installPlugins(const std::vector<std::string> &pluginPathVec)
 {
-    std::cout << "[TEST] install plugin (" << pluginPath << ") ......" << std::endl;
-
-    std::string errStr;
-    /*安装插件*/
-    std::string pluginId = VAS_PLUGIN_CONTEXT->install(pluginPath, &errStr);
-    
-    if (pluginId.empty()) {
-        std::cout << "install failed ! reason: " << errStr << std::endl;
-        return;
-    }
-    
-    do {
-
-        std::cout << "starting ......" << std::endl;
-        /*启动插件*/
-        if (!VAS_PLUGIN_CONTEXT->startPlugin(pluginId, &errStr)) {
-            std::cout << "start failed ! reason: " << errStr << std::endl;
-            break; /*to uninstall*/
+    std::string err;
+    std::vector<std::string> pluginIdVec;
+    std::string pluginId;
+    for (const std::string &pluginPath : pluginPathVec) {
+        pluginId = VAS_PLUGIN_CONTEXT->install(pluginPath, &err);
+        if (pluginId.empty()) {
+            std::cout << "install plugin ( path = " << pluginPath << " ) failed ! reason: " << err << std::endl;
         }
-        
-        std::cout << "stopping ......" << std::endl;
-        /*停止插件*/
-        if (!VAS_PLUGIN_CONTEXT->stopPlugin(pluginId, &errStr)) {
-            std::cout << "stop failed ! reason: " << errStr << std::endl;
-            break; /*to uninstall*/
+        else {
+            std::cout << "install plugin ( path = " << pluginPath << " id =  " << pluginId << " ) successfully !" << std::endl;
+            pluginIdVec.push_back(pluginId);
         }
-
-    } while (0);
-    
-    std::cout << "uninstalling ......" << std::endl;
-    /*卸载插件*/
-    if (!VAS_PLUGIN_CONTEXT->uninstall(pluginId, &errStr)) {
-        std::cout << "uninstall failed ! reason: " << errStr << std::endl;
-        return;
     }
+    return pluginIdVec;
+}
 
-    std::cout << "[TEST] finished !" << std::endl;
-    return;
+void startPlugins(const std::vector<std::string> &pluginIdVec)
+{
+    std::string err;
+    for (const std::string &pluginId : pluginIdVec) {
+        if (VAS_PLUGIN_CONTEXT->startPlugin(pluginId, &err)) {
+            std::cout << "start plugin ( id = " << pluginId << " ) successfully !" << std::endl;
+        }
+        else {
+            std::cout << "start plugin ( id = " << pluginId << " ) failed ! reason: " << err << std::endl;
+        }
+    }
+}
+
+void stopPlugins(const std::vector<std::string> &pluginIdVec)
+{
+    std::string err;
+    for (const std::string &pluginId : pluginIdVec) {
+        if (VAS_PLUGIN_CONTEXT->stopPlugin(pluginId, &err)) {
+            std::cout << "stop plugin ( id = " << pluginId << " ) successfully !" << std::endl;
+        }
+        else {
+            std::cout << "stop plugin ( id = " << pluginId << " ) failed ! reason: " << err << std::endl;
+        }
+    }
+}
+
+void uninstallPlugins(const std::vector<std::string> &pluginIdVec)
+{
+    std::string err;
+    for (const std::string &pluginId : pluginIdVec) {
+        if (VAS_PLUGIN_CONTEXT->uninstall(pluginId, &err)) {
+            std::cout << "uninstall plugin ( id = " << pluginId << " ) successfully !" << std::endl;
+        }
+        else {
+            std::cout << "uninstall plugin ( id = " << pluginId << " ) failed ! reason: " << err << std::endl;
+        }
+    }
 }

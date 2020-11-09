@@ -1,26 +1,19 @@
 #include "demo.h"
 #include <iostream>
 #include <functional>
-#include "vasVariant.h"
-#include "vasEvent.h"
+#include <vasVariant.h>
+#include <vasEvent.h>
 
-Demo::Demo(int demoInt)
-    : m_demoInt(demoInt)
+Demo::Demo()
 {
-    std::cout << "constract Demo() !" << std::endl;
-
     /*注册事件*/
     VAS_PLUGIN_CONTEXT->registEvent("group", "event", VAS_EVENT_M(&Demo::demoEvent, this));
 }
 
 Demo::~Demo()
 {
-    std::cout << "release Demo() !" << std::endl;
-}
-
-void Demo::demoFunc()
-{
-    std::cout << "The Demo::m_demoInt = " << m_demoInt << " !" << std::endl;
+    /*取消事件注册*/
+    VAS_PLUGIN_CONTEXT->unregistEvent("group", "event");
 }
 
 void Demo::demoEvent(VAS::vasProperty property)

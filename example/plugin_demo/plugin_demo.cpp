@@ -6,7 +6,7 @@ void PluginDemo::start()
 {
     std::cout << "start vas plugin plugin.demo !" << std::endl;
     
-    m_pDemo = new Demo(20);
+    m_pDemo = new Demo();
 }
 
 void PluginDemo::stop()
@@ -17,7 +17,7 @@ void PluginDemo::stop()
     m_pDemo = nullptr;
 }
 
-VAS_REGIST_PLUGIN_ID(PluginDemo, "plugin.demo")
+VAS_REGIST_PLUGIN_ID(PluginDemo, "plugin.demo") /*VAS_REGIST_PLUGIN_ID注册为一个插件，插件ID为"plugin.demo"*/
 
 
 

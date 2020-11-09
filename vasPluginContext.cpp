@@ -98,7 +98,7 @@ bool VAS::vasPluginContext::uninstall(const std::string &pluginId, std::string *
             break;
         }
         
-        if (pluginInfo._state == VAS::VAS_PS_STARTING) {
+        if (pluginInfo._state == VAS::VAS_PS_RUNNING) {
             pluginInfo._pPlugin->stop();
         }
         
@@ -129,15 +129,14 @@ bool VAS::vasPluginContext::startPlugin(const std::string &pluginId, std::string
         
         switch (pluginInfo._state) {
             case VAS::VAS_PS_INSTALLED:
-            case VAS::VAS_PS_STOPPING:
                 pluginInfo._pPlugin->start();
-                pluginInfo._state = VAS::VAS_PS_STARTING;
+                pluginInfo._state = VAS::VAS_PS_RUNNING;
                 rslt = true;
                 break;
             case VAS::VAS_PS_UNINSTALLED:
                 VAS_ERROR_SET(pErrStr, "start plugin failed ! the plugin is uninstalled !");
                 break;
-            case VAS::VAS_PS_STARTING:
+            case VAS::VAS_PS_RUNNING:
                 VAS_ERROR_SET(pErrStr, "start plugin failed ! the plugin has been started !");
                 break;
             default:
@@ -160,16 +159,13 @@ bool VAS::vasPluginContext::stopPlugin(const std::string& pluginId, std::string 
         VAS::vasPluginInfo_St &pluginInfo = m_pluginsMap.find(pluginId)->second;
         
         switch (pluginInfo._state) {
-            case VAS::VAS_PS_STARTING:
+            case VAS::VAS_PS_RUNNING:
                 pluginInfo._pPlugin->stop();
-                pluginInfo._state = VAS::VAS_PS_STOPPING;
+                pluginInfo._state = VAS::VAS_PS_INSTALLED;
                 rslt = true;
                 break;
             case VAS::VAS_PS_INSTALLED:
                 VAS_ERROR_SET(pErrStr, "stop plugin failed ! the plugin is not started !");
-                break;
-            case VAS::VAS_PS_STOPPING:
-                VAS_ERROR_SET(pErrStr, "stop plugin failed ! the plugin has been stopped !");
                 break;
             case VAS::VAS_PS_UNINSTALLED:
                 VAS_ERROR_SET(pErrStr, "stop plugin failed ! the plugin is uninstalled !");

@@ -80,6 +80,9 @@
     #define VAS_PRIVATE_IMPL_CLASS class
 #endif /*VAS_PRIVATE_IMPL_CLASS*/
 
+/**
+ * @brief VAS_DECLARE_FRIEND_CONTEXT 框架上下文类的友元声明
+ */
 #ifndef VAS_DECLARE_FRIEND_CONTEXT
     #define VAS_DECLARE_FRIEND_CONTEXT friend class VAS::vasPluginContext;
 #endif /*VAS_DECLARE_FRIEND_CONTEXT*/
@@ -96,10 +99,9 @@ typedef std::map<std::string, VAS::vasVariant> vasProperty;
 
 /*** enums ***/
 enum vasPluginState_Em {
-    VAS_PS_UNINSTALLED = 0,
-    VAS_PS_INSTALLED,
-    VAS_PS_STARTING,
-    VAS_PS_STOPPING,
+    VAS_PS_UNINSTALLED = 0, /*未安装*/
+    VAS_PS_INSTALLED,       /*已安装*/
+    VAS_PS_RUNNING,         /*运行中*/
 };
 
 /*** structs ***/
@@ -108,10 +110,10 @@ struct vasPluginInfo_St
     vasPluginInfo_St()
         : _pHandle(nullptr), _pPlugin(nullptr) {}
     
-    void              *_pHandle;
-    std::string        _pluginPath;
-    vasPlugin         *_pPlugin;
-    vasPluginState_Em  _state;
+    void              *_pHandle;    /*插件句柄*/
+    std::string        _pluginPath; /*插件路径*/
+    vasPlugin         *_pPlugin;    /*插件*/
+    vasPluginState_Em  _state;      /*插件状态*/
 };
 
 } /*namespace VAS*/

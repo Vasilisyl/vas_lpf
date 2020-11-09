@@ -18,6 +18,8 @@ Demo::~Demo()
 
 void Demo::demoEvent(VAS::vasProperty property)
 {
+    std::cout << "* * * * * * * * * *" << std::endl;
+
     std::cout << "The demo's event is triggered !" << std::endl;
 
     /*从property中根据参数键值取出数据*/
@@ -30,4 +32,6 @@ void Demo::demoEvent(VAS::vasProperty property)
 
     var = property["money"];
     std::cout << "the money = " << var.get<double>() << std::endl;
+    
+    std::cout << "* * * * * * * * * *" << std::endl;
 }

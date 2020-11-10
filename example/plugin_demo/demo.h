@@ -9,5 +9,7 @@ public:
     ~Demo();
 
     /*demo's event*/
-    void demoEvent(VAS::vasProperty property);
+    void demoEvent1(VAS::vasProperty property);
+
+    void demoEvent2(VAS::vasProperty property);
 };

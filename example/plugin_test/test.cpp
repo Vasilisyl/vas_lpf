@@ -30,5 +30,12 @@ void Test::doTriggered()
     var.set<double>(3.1415);
     property["money"] = var;
 
-    VAS_PLUGIN_CONTEXT->triggerEvent("group", "event", property);
+    /*指定触发事件group/event1*/
+    VAS_PLUGIN_CONTEXT->triggerEvent("group", "event1", property);
+
+    /*指定触发事件group/event2*/
+    VAS_PLUGIN_CONTEXT->triggerEvent("group", "event2", property);
+
+    /*触发组"group"中的所有事件*/
+    VAS_PLUGIN_CONTEXT->triggerEvent("group", property);
 }

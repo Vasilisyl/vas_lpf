@@ -18,7 +18,7 @@ namespace VAS {
 /**
  * @brief vasEvent 事件类
  */
-VAS_USER_CLASS vasEvent final
+VAS_USER_CLASS vasEvent VAS_DISABLED_INHERIT
 {
 public:
     vasEvent() = default;

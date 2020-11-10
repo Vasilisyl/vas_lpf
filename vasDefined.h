@@ -12,6 +12,10 @@
         ClassName &operator=(const ClassName &) = delete;
 #endif /*VAS_DISABLED_COPY*/
 
+#ifndef VAS_DISABLED_INHERIT
+    #define VAS_DISABLED_INHERIT final
+#endif /*VAS_DISABLED_INHERIT*/
+
 /**
  * @brief VAS_PLUGIN 插件的构造
  *        在插件vasPlugin的派生类中必须使用此宏来替代构造函数

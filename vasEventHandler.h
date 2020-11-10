@@ -13,7 +13,7 @@ class vasEvent;
 /**
  * @brief vasEventHandler 事件管理器类
  */
-VAS_PRIVATE_IMPL_CLASS vasEventHandler final
+VAS_PRIVATE_IMPL_CLASS vasEventHandler VAS_DISABLED_INHERIT
 {
     VAS_DISABLED_COPY(vasEventHandler)
     VAS_DECLARE_FRIEND_CONTEXT

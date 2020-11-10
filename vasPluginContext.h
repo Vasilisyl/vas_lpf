@@ -18,7 +18,7 @@ class vasEvent;
 /**
  * @brief vasPluginContext 框架上下文类
  */
-VAS_USER_INTERFACE_CLASS vasPluginContext final
+VAS_USER_INTERFACE_CLASS vasPluginContext VAS_DISABLED_INHERIT
 {
     VAS_DISABLED_COPY(vasPluginContext)
     vasPluginContext();

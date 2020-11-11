@@ -42,7 +42,7 @@
  *     // 插件停止时需要进行的业务
  * }
  * 
- * VAS_REGIST_PLUGIN_ID(PluginTest, "plugin.test") // VAS_REGIST_PLUGIN_ID宏作为源文件的结尾
+ * VAS_REGIST_PLUGIN_ID(PluginTest) // VAS_REGIST_PLUGIN_ID宏作为源文件的结尾
  * 
  */
 

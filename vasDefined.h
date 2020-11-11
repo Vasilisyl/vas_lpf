@@ -25,24 +25,28 @@
  */
 #ifndef VAS_PLUGIN
     #define VAS_PLUGIN(ClassName, pluginId) \
-        ClassName(const std::string &pgId) : VAS::vasPlugin(pgId) {} \
-        ~ClassName() {}
+        ClassName() : VAS::vasPlugin(pluginId) {}
 #endif /*VAS_PLUGIN*/
 
 /**
  * @brief VAS_REGIST_PLUGIN_ID 插件的注册
  *        必须在插件vasPlugin的派生类cpp文件的末尾使用VAS_REGIST_PLUGIN_ID
  * @example:
- *        VAS_REGIST_PLUGIN_ID(PluginTest, "plugin.test")
+ *        VAS_REGIST_PLUGIN_ID(PluginTest)
  *        其中PluginTest为类名，"plugin.test"为该插件ID
  */
 #ifndef VAS_REGIST_PLUGIN_ID
-    #define VAS_REGIST_PLUGIN_ID(ClassName, pgId) \
+    #define VAS_REGIST_PLUGIN_ID(ClassName) \
         extern "C" VAS::vasPlugin *createPlugin() \
         { \
-            return new ClassName(pgId); \
+            return new ClassName(); \
         }
 #endif /*VAS_REGIST_PLUGIN_ID*/
+
+#ifndef VAS_SERVICE
+    #define VAS_SERVICE(ClassName, svcId) \
+        ClassName() : VAS::vasService(svcId) {}
+#endif /*VAS_SERVICE*/
 
 /*error set*/
 #ifndef VAS_ERROR_SET

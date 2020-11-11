@@ -15,7 +15,8 @@ extern "C" {
 typedef VAS::vasPlugin *(*P_CREATE_PLUGIN_FUNC)();
 
 VAS::vasPluginContext::vasPluginContext()
-    : m_pEventHandler(new VAS::vasEventHandler())
+    : m_pEventHandler(new VAS::vasEventHandler()),
+      m_pServiceHandler(new VAS::vasServiceHandler())
 {
     
 }

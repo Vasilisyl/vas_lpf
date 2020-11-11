@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include "vasDefined.h"
+#include "vasServiceHandler.h"
 
 /*获取框架上下文实例*/
 #ifndef VAS_PLUGIN_CONTEXT
@@ -96,10 +97,41 @@ public:
      * @param  eventKey       事件键值，在同一个事件组中，一个事件键值与一个事件一一对应
      */
     void unregistEvent(const std::string &eventGroupKey, const std::string &eventKey);
+
+    /* * * * * * * 3.服务接口 * * * * * * */
+
+    /**
+     * @brief  registService   注册服务
+     * @param  pSvc            服务基类指针
+     * @return bool            注册结果
+     */
+    bool registService(VAS::vasService *pSvc);
+
+    /**
+     * @brief  unregistService 取消服务的注册
+     * @param  pSvc            服务基类指针
+     * @return bool            注册结果
+     */
+    bool unregistService(VAS::vasService *pSvc);
+
+    /**
+     * @brief  getService      获取服务
+     * @param  pSvcId          注册服务的ID
+     * @return SERVICE_T       服务类或服务派生类类指针，获取失败返回nullptr
+     */
+    template<typename SERVICE_T>
+    SERVICE_T getService(const std::string &svcId);
     
 private:
     vasEventHandler                              *m_pEventHandler;
+    vasServiceHandler                            *m_pServiceHandler;
     std::map<std::string, VAS::vasPluginInfo_St>  m_pluginsMap;
 };
+
+template<typename SERVICE_T>
+SERVICE_T VAS::vasPluginContext::getService(const std::string &svcId)
+{
+    return m_pServiceHandler->getService<SERVICE_T>(svcId);
+}
 
 } /*namespace VAS*/

@@ -36,7 +36,7 @@ VAS_PRIVATE_IMPL_CLASS vasServiceHandler VAS_DISABLED_INHERIT
     /**
      * @brief  getService      获取服务
      * @param  pSvcId          注册服务的ID
-     * @return SERVICE_T       服务类（特化版本）或服务派生类类指针，获取失败返回nullptr
+     * @return SERVICE_T       服务类或服务派生类类指针，获取失败返回nullptr
      */
     template<typename SERVICE_T>
     SERVICE_T getService(const std::string &svcId);

@@ -197,3 +197,13 @@ void VAS::vasPluginContext::unregistEvent(const std::string &eventGroupKey, cons
 {
     m_pEventHandler->unregistEvent(eventGroupKey, eventKey);
 }
+
+bool VAS::vasPluginContext::registService(VAS::vasService *pSvc)
+{
+    return m_pServiceHandler->registService(pSvc);
+}
+
+bool VAS::vasPluginContext::unregistService(VAS::vasService *pSvc)
+{
+    return m_pServiceHandler->unregistService(pSvc);
+}

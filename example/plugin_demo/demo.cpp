@@ -9,12 +9,18 @@ Demo::Demo()
     /*注册事件*/
     VAS_PLUGIN_CONTEXT->registEvent("group", "event1", VAS_EVENT_M(&Demo::demoEvent1, this));
     VAS_PLUGIN_CONTEXT->registEvent("group", "event2", VAS_EVENT_M(&Demo::demoEvent2, this));
+
+    /*注册服务*/
+    VAS_PLUGIN_CONTEXT->registService(this);
 }
 
 Demo::~Demo()
 {
     /*取消事件注册*/
     VAS_PLUGIN_CONTEXT->unregistEvent("group", "event1");
+
+    /*取消服务的注册*/
+    VAS_PLUGIN_CONTEXT->unregistService(this);
 }
 
 void Demo::demoEvent1(VAS::vasProperty property)
@@ -55,4 +61,10 @@ void Demo::demoEvent2(VAS::vasProperty property)
     std::cout << "the money = " << var.get<double>() << std::endl;
     
     std::cout << "* * * * * * * * * *" << std::endl;
+}
+
+void Demo::print(const std::string &str)
+{
+    std::cout << "PrintService is Called !\n";
+    std::cout << str << std::endl;
 }

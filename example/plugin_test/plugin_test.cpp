@@ -7,6 +7,7 @@ void PluginTest::start()
     std::cout << "start vas plugin plugin.test !" << std::endl;
     
     m_pTest = new Test();
+    m_pTest->toDo();
 }
 
 void PluginTest::stop()

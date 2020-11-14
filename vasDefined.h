@@ -43,6 +43,13 @@
         }
 #endif /*VAS_REGIST_PLUGIN_ID*/
 
+/**
+ * @brief VAS_SERVICE 服务ID的注册
+ *        在服务接口类声明中使用
+ * @example:
+ *        VAS_SERVICE(TestService, "service.test")
+ *        其中TestService为类名，"service.test"为该服务ID
+ */
 #ifndef VAS_SERVICE
     #define VAS_SERVICE(ClassName, svcId) \
         ClassName() : VAS::vasService(svcId) {}
@@ -87,6 +94,20 @@
 #ifndef VAS_PRIVATE_IMPL_CLASS
     #define VAS_PRIVATE_IMPL_CLASS class
 #endif /*VAS_PRIVATE_IMPL_CLASS*/
+
+/**
+ * @brief VAS_SERVICE_INTERFACE 服务接口类说明
+ */
+#ifndef VAS_SERVICE_INTERFACE_CLASS
+    #define VAS_SERVICE_INTERFACE_CLASS class
+#endif /*VAS_SERVICE_INTERFACE_CLASS*/
+
+/**
+ * @brief VAS_SERVICE_IMPL_CLASS 服务实现类说明
+ */
+#ifndef VAS_SERVICE_IMPL_CLASS
+    #define VAS_SERVICE_IMPL_CLASS class
+#endif /*VAS_SERVICE_IMPL_CLASS*/
 
 /**
  * @brief VAS_DECLARE_FRIEND_CONTEXT 框架上下文类的友元声明

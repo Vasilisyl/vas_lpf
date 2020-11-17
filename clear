@@ -1,6 +1,24 @@
 #!/bin/bash
 
-rm -r ./build ./CMakeFiles CMakeCache.txt ./cmake_install.cmake ./Makefile 
+if [ -d "./build/" ]; then
+    rm -r ./build/
+fi
+
+if [ -d "./CMakeFiles/" ]; then
+    rm -r ./CMakeFiles/
+fi
+
+if [ -f "./CMakeCache.txt" ]; then
+    rm ./CMakeCache.txt
+fi
+
+if [ -f "./cmake_install.cmake" ]; then
+    rm ./cmake_install.cmake
+fi
+
+if [ -f "./Makefile" ]; then
+    rm ./Makefile
+fi
 
 
 echo "clear vas_lpf finished !"

@@ -1,31 +1,64 @@
 #!/bin/bash
 
-#plugin.test
+#delete build
+if [ -d "./build/" ]; then
+    rm -r ./build/
+fi
 
-echo "start clearing plugin.test !"
+#delete project
+if [ -d "./CMakeFiles/" ]; then
+    rm -r ./CMakeFiles/
+fi
 
-cd plugin_test
+if [ -f "./CMakeCache.txt" ]; then
+    rm ./CMakeCache.txt
+fi
 
-./clear
+if [ -f "./cmake_install.cmake" ]; then
+    rm ./cmake_install.cmake
+fi
 
-echo "finish clearing plugin.test !"
+if [ -f "./Makefile" ]; then
+    rm ./Makefile
+fi
 
-#plugin.demo
+#delete example_main
+if [ -d "./example_main/CMakeFiles/" ]; then
+    rm -r ./example_main/CMakeFiles/
+fi
 
-echo "start clearing plugin.demo !"
+if [ -f "./example_main/cmake_install.cmake" ]; then
+    rm ./example_main/cmake_install.cmake
+fi
 
-cd ../plugin_demo
+if [ -f "./example_main/Makefile" ]; then
+    rm ./example_main/Makefile
+fi
 
-./clear
+#delete plugin_demo
+if [ -d "./plugin_demo/CMakeFiles/" ]; then
+    rm -r ./plugin_demo/CMakeFiles/
+fi
 
-echo "finish clearing plugin.demo !"
+if [ -f "./plugin_demo/cmake_install.cmake" ]; then
+    rm ./plugin_demo/cmake_install.cmake
+fi
 
-#example main
+if [ -f "./plugin_demo/Makefile" ]; then
+    rm ./plugin_demo/Makefile
+fi
 
-echo "start clearing example main !"
+#delete plugin_test
+if [ -d "./plugin_test/CMakeFiles/" ]; then
+    rm -r ./plugin_test/CMakeFiles/
+fi
 
-cd ../
+if [ -f "./plugin_test/cmake_install.cmake" ]; then
+    rm ./plugin_test/cmake_install.cmake
+fi
 
-rm -r build/ CMakeCache.txt CMakeFiles/ cmake_install.cmake Makefile
+if [ -f "./plugin_test/Makefile" ]; then
+    rm ./plugin_test/Makefile
+fi
 
-echo "finish clearing example main !"
+echo "clear vas_lpf example finished !"

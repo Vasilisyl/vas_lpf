@@ -1,14 +1,9 @@
 cmake_minimum_required(VERSION 2.4)
 
-project(example)
-
 set(CMAKE_CXX_FLAGS "-std=c++11")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./build)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/plugins/)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/exec/)
 
-add_executable(example ./main.cpp)
-
-include_directories(../build/include)
-
-find_library(VAS_LIBPATH vas_lpf ${PROJECT_SOURCE_DIR}/../build/libs)
-
-target_link_libraries(example ${VAS_LIBPATH} dl)
+add_subdirectory(plugin_demo)
+add_subdirectory(plugin_test)
+add_subdirectory(example_main)

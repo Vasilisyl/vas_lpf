@@ -45,4 +45,4 @@ cmake -DCMAKE_BUILD_TYPE=Release -DVAS_LIB_TYPE=$_VAS_LIB_TYPE CMakeLists.txt
 
 make
 
-echo "generate vas_lpf finished !"
+echo "generate vas_lpf library finished !"

@@ -21,4 +21,4 @@ if [ -f "./Makefile" ]; then
 fi
 
 
-echo "clear vas_lpf finished !"
+echo "clear vas_lpf library finished !"

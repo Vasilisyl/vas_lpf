@@ -47,16 +47,17 @@ std::string VAS::vasPluginContext::install(const std::string& pluginPath, std::s
             VAS_ERROR_SET(pErrStr, "plugin's path is empty !");
             break;
         }
-        
         void *pHandle = dlopen(pluginPath.c_str(), RTLD_LAZY);
         if (!pHandle) {
-            VAS_ERROR_SET(pErrStr, dlerror());
+            const char *pDlErr = dlerror();
+            VAS_ERROR_SET(pErrStr, pDlErr);
             break;
         }
         
         P_CREATE_PLUGIN_FUNC pCreate = (P_CREATE_PLUGIN_FUNC)dlsym(pHandle, "createPlugin");
         if (!pCreate) {
-            VAS_ERROR_SET(pErrStr, dlerror());
+            const char *pDlErr = dlerror();
+            VAS_ERROR_SET(pErrStr, pDlErr);
             break;
         }
         

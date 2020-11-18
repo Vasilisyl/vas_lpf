@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cmake CMakeLists.txt
-
-make
-
-echo "generate plugin_test finished !"

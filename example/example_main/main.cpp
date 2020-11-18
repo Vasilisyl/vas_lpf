@@ -1,6 +1,15 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 #include "vasPluginContext.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include <unistd.h>
+#ifdef __cplusplus
+}
+#endif
 
 /*批量安装插件*/
 std::vector<std::string> installPlugins(const std::vector<std::string> &pluginPathVec);
@@ -19,8 +28,14 @@ int main(int argc, char *argv[])
     std::cout << "install ......" << std::endl;
 
     std::vector<std::string> pluginPathVec;
-    pluginPathVec.push_back("./plugin_demo/build/libplugin_demo.so"); /*测试插件plugin.demo*/
-    pluginPathVec.push_back("./plugin_test/build/libplugin_test.so"); /*测试插件plugin.test*/
+    const char *pWorkPath = get_current_dir_name();
+#ifndef NDEBUG /*DEBUG*/
+    pluginPathVec.push_back(std::string(pWorkPath) + "/../plugins/libplugin_demod.so"); /*测试插件plugin.demo*/
+    pluginPathVec.push_back(std::string(pWorkPath) + "/../plugins/libplugin_testd.so"); /*测试插件plugin.test*/
+#else /*RELEASE*/
+    pluginPathVec.push_back(std::string(pWorkPath) + "/../plugins/libplugin_demo.so"); /*测试插件plugin.demo*/
+    pluginPathVec.push_back(std::string(pWorkPath) + "/../plugins/libplugin_test.so"); /*测试插件plugin.test*/
+#endif
 
     /*安装插件*/
     std::vector<std::string> pluginIdVec = ::installPlugins(pluginPathVec);

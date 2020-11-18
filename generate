@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # help
-if [ "$1" = "-h" -o $# = 0 ]; then
+if [ "$1" = "-h" -o "$1" = "--help" -o $# = 0 ]; then
     echo "vas_lpf library help !"
     echo "generate parameter:"
     echo "    -h:        vas_lpf library help"
+    echo "    -help:     vas_lpf library help"
     echo "    -shared:   library type = shared"
     echo "    -static:   library type = static"
     exit 0

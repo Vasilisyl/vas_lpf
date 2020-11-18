@@ -5,31 +5,17 @@ if [ "$1" = "-h" -o $# = 0 ]; then
     echo "vas_lpf library help !"
     echo "generate parameter:"
     echo "    -h:        vas_lpf library help"
-    echo "    -d:        build type = debug"
-    echo "    -r:        build type = release"
     echo "    -shared:   library type = shared"
     echo "    -static:   library type = static"
     exit 0
-# debug and shared
-elif [ "$1" = "-d" -a "$2" = "-shared" -o "$1" = "-shared" -a "$2" = "-d" ]; then
-    echo "VAS_BUILD_TYPE=DEBUG"
+# shared
+elif [ "$1" = "-shared" ]; then
     echo "VAS_LIB_TYPE=SHARED"
-    cmake -DCMAKE_BUILD_TYPE=Debug -DVAS_LIB_TYPE=SHARED CMakeLists.txt
-# debug and static
-elif [ "$1" = "-d" -a "$2" = "-static" -o "$1" = "-static" -a "$2" = "-d" ]; then
-    echo "VAS_BUILD_TYPE=DEBUG"
+    _VAS_LIB_TYPE=SHARED
+# static
+elif [ "$1" = "-static" ]; then
     echo "VAS_LIB_TYPE=STATIC"
-    cmake -DCMAKE_BUILD_TYPE=Debug -DVAS_LIB_TYPE=STATIC CMakeLists.txt
-# release and shared
-elif [ "$1" = "-r" -a "$2" = "-shared" -o "$1" = "-shared" -a "$2" = "-r" ]; then
-    echo "VAS_BUILD_TYPE=RELEASE"
-    echo "VAS_LIB_TYPE=SHARED"
-    cmake -DCMAKE_BUILD_TYPE=Release -DVAS_LIB_TYPE=SHARED CMakeLists.txt
-# release and static
-elif [ "$1" = "-r" -a "$2" = "-static" -o "$1" = "-static" -a "$2" = "-r" ]; then
-    echo "VAS_BUILD_TYPE=RELEASE"
-    echo "VAS_LIB_TYPE=STATIC"
-    cmake -DCMAKE_BUILD_TYPE=Release -DVAS_LIB_TYPE=STATIC CMakeLists.txt
+    _VAS_LIB_TYPE=STATIC
 else
     echo "Unknow parameter ! Please input parameter \"-h\" or \"--help\" for help !"
     exit 0
@@ -49,6 +35,12 @@ if [ ! -d "./build/libs/" ]; then
 fi
 
 cp *.h ./build/include
+
+cmake -DCMAKE_BUILD_TYPE=Debug -DVAS_LIB_TYPE=$_VAS_LIB_TYPE CMakeLists.txt
+
+make
+
+cmake -DCMAKE_BUILD_TYPE=Release -DVAS_LIB_TYPE=$_VAS_LIB_TYPE CMakeLists.txt
 
 make
 

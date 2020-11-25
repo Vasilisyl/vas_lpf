@@ -20,7 +20,7 @@ namespace VAS {
 /**
  * @brief vasException 异常类
  */
-class vasException : public std::exception
+VAS_USER_CLASS vasException : public std::exception
 {
 public:
     vasException(const char *pFileName, int lineNum, const char *pFuncName, const std::string &description) throw();

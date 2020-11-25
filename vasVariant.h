@@ -15,11 +15,8 @@ VAS_USER_INTERFACE_CLASS vasVariant
 {
 public:
     vasVariant();
-
     vasVariant(const vasVariant &other);
-
     vasVariant(vasVariant &&other);
-
     ~vasVariant();
 
     /**

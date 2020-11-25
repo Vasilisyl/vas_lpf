@@ -12,4 +12,4 @@ elseif (CMAKE_BUILD_TYPE MATCHES "Release")
 else()
 endif()
 
-add_library(${VAS_LIB_NAME} ${VAS_LIB_TYPE} ./vasPluginContext.cpp ./vasVariant.cpp ./vasEventHandler.cpp ./vasServiceHandler.cpp)
+add_library(${VAS_LIB_NAME} ${VAS_LIB_TYPE} ./vasPluginContext.cpp ./vasVariant.cpp ./vasEventHandler.cpp ./vasServiceHandler.cpp ./vasException.cpp)

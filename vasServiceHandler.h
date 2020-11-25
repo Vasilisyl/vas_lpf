@@ -24,14 +24,14 @@ VAS_PRIVATE_IMPL_CLASS vasServiceHandler VAS_DISABLED_INHERIT
      * @param  pSvc            服务基类指针
      * @return bool            注册结果
      */
-    bool registService(VAS::vasService *pSvc);
+    bool registService(VAS::vasService *pSvc) noexcept;
 
     /**
      * @brief  unregistService 取消服务的注册
      * @param  pSvc            服务基类指针
      * @return bool            注册结果
      */
-    bool unregistService(VAS::vasService *pSvc);
+    bool unregistService(VAS::vasService *pSvc) noexcept;
 
     /**
      * @brief  getService      获取服务
@@ -39,17 +39,17 @@ VAS_PRIVATE_IMPL_CLASS vasServiceHandler VAS_DISABLED_INHERIT
      * @return SERVICE_T       服务类或服务派生类类指针，获取失败返回nullptr
      */
     template<typename SERVICE_T>
-    SERVICE_T getService(const std::string &svcId);
+    SERVICE_T getService(const std::string &svcId) noexcept;
 
 private:
     std::map<std::string, VAS::vasService *> m_svcMap;
 };
 
 template<>
-VAS::vasService *VAS::vasServiceHandler::getService<VAS::vasService *>(const std::string &svcId);
+VAS::vasService *VAS::vasServiceHandler::getService<VAS::vasService *>(const std::string &svcId) noexcept;
 
 template<typename SERVICE_T>
-SERVICE_T VAS::vasServiceHandler::getService(const std::string &svcId)
+SERVICE_T VAS::vasServiceHandler::getService(const std::string &svcId) noexcept
 {
     SERVICE_T pSvc = nullptr;
     do {

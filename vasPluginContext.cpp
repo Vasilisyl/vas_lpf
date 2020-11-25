@@ -14,20 +14,20 @@ extern "C" {
 
 typedef VAS::vasPlugin *(*P_CREATE_PLUGIN_FUNC)();
 
-VAS::vasPluginContext::vasPluginContext()
+VAS::vasPluginContext::vasPluginContext() noexcept
     : m_pEventHandler(new VAS::vasEventHandler()),
       m_pServiceHandler(new VAS::vasServiceHandler())
 {
     
 }
 
-VAS::vasPluginContext::~vasPluginContext()
+VAS::vasPluginContext::~vasPluginContext() noexcept
 {
     delete m_pEventHandler;
     m_pEventHandler = nullptr;
 }
 
-VAS::vasPluginContext *VAS::vasPluginContext::getInstance()
+VAS::vasPluginContext *VAS::vasPluginContext::getInstance() noexcept
 {
     static vasPluginContext *s_pInstance = nullptr;
     static std::mutex s_mutex;
@@ -38,32 +38,32 @@ VAS::vasPluginContext *VAS::vasPluginContext::getInstance()
     return s_pInstance;
 }
 
-std::string VAS::vasPluginContext::install(const std::string& pluginPath, std::string *pErrStr)
+std::string VAS::vasPluginContext::install(const std::string& pluginPath) throw(VAS::vasException)
 {
-    VAS_EMPTY_STR_SET(pErrStr);
     std::string pgId;
     do {
         if (pluginPath.empty()) { 
-            VAS_ERROR_SET(pErrStr, "plugin's path is empty !");
+            VAS_EXCEPTION_THROW(VAS::vasPluginContext, "The plugin's path is empty !");
             break;
         }
         void *pHandle = dlopen(pluginPath.c_str(), RTLD_LAZY);
         if (!pHandle) {
             const char *pDlErr = dlerror();
-            VAS_ERROR_SET(pErrStr, pDlErr);
+            VAS_EXCEPTION_THROW(VAS::vasPluginContext, pDlErr);
             break;
         }
         
         P_CREATE_PLUGIN_FUNC pCreate = (P_CREATE_PLUGIN_FUNC)dlsym(pHandle, "createPlugin");
         if (!pCreate) {
             const char *pDlErr = dlerror();
-            VAS_ERROR_SET(pErrStr, pDlErr);
+            VAS_EXCEPTION_THROW(VAS::vasPluginContext, pDlErr);
             break;
         }
         
         VAS::vasPlugin *pPlugin = pCreate();
         if (!pPlugin) {
-            VAS_ERROR_SET(pErrStr, "get plugin info failed !");
+            VAS_EXCEPTION_THROW(VAS::vasPluginContext, \
+                "Get plugin's creator failed ! Please Use \'VAS_REGIST_PLUGIN_ID\' to regist it!");
             break;
         }
         
@@ -77,134 +77,117 @@ std::string VAS::vasPluginContext::install(const std::string& pluginPath, std::s
         
         m_pluginsMap[pgId] = pluginInfo;
         
-        VAS_INFO_SET(pErrStr, "no error !");
-        
     } while (0);
     return pgId;
 }
 
-bool VAS::vasPluginContext::uninstall(const std::string &pluginId, std::string *pErrStr)
+void VAS::vasPluginContext::uninstall(const std::string &pluginId) throw(VAS::vasException)
 {
-    VAS_EMPTY_STR_SET(pErrStr);
-    bool rslt = false;
-    do {
-        
-        if (pluginId.empty() || m_pluginsMap.find(pluginId) == m_pluginsMap.end()) {
-            VAS_ERROR_SET(pErrStr, "don't find the plugin id !");
+    if (pluginId.empty() || m_pluginsMap.find(pluginId) == m_pluginsMap.end()) {
+        VAS_EXCEPTION_THROW(VAS::vasPluginContext, \
+            std::string("Cannot find the plugin ID ! The plugin ID is ") + pluginId + " !");
+    }
+    
+    VAS::vasPluginInfo_St &pluginInfo = m_pluginsMap.find(pluginId)->second;
+    if (!pluginInfo._pPlugin || !pluginInfo._pHandle) {
+        VAS_EXCEPTION_THROW(VAS::vasPluginContext, \
+            "An error occurred with Uninstall ! The plugin has been uninstalled or not installed correctly !");
+    }
+    
+    if (pluginInfo._state == VAS::VAS_PS_RUNNING) {
+        pluginInfo._pPlugin->stop();
+    }
+    
+    delete pluginInfo._pPlugin;
+    pluginInfo._pPlugin = nullptr;
+    
+    dlclose(pluginInfo._pHandle);
+    pluginInfo._pHandle = nullptr;
+    pluginInfo._pluginPath.clear();
+    pluginInfo._state = VAS::VAS_PS_UNINSTALLED;
+    return;
+}
+
+void VAS::vasPluginContext::startPlugin(const std::string &pluginId) throw(VAS::vasException)
+{
+    if (m_pluginsMap.find(pluginId) == m_pluginsMap.end()) {
+        VAS_EXCEPTION_THROW(VAS::vasPluginContext, \
+            std::string("The plugin is not exists ! The plugin ID is ") + pluginId + " !");
+    }
+    VAS::vasPluginInfo_St &pluginInfo = m_pluginsMap.find(pluginId)->second;
+    
+    switch (pluginInfo._state) {
+        case VAS::VAS_PS_INSTALLED:
+            pluginInfo._pPlugin->start();
+            pluginInfo._state = VAS::VAS_PS_RUNNING;
             break;
-        }
-        
-        VAS::vasPluginInfo_St &pluginInfo = m_pluginsMap.find(pluginId)->second;
-        if (!pluginInfo._pPlugin || !pluginInfo._pHandle) {
-            VAS_ERROR_SET(pErrStr, "an error occurred with Uninstall !");
+        case VAS::VAS_PS_UNINSTALLED:
+            VAS_EXCEPTION_THROW(VAS::vasPluginContext, \
+                std::string("Start plugin failed ! The plugin is uninstalled ! The plugin ID is ") + pluginId + " !");
             break;
-        }
-        
-        if (pluginInfo._state == VAS::VAS_PS_RUNNING) {
+        case VAS::VAS_PS_RUNNING:
+            VAS_EXCEPTION_THROW(VAS::vasPluginContext, \
+                std::string("Start plugin failed ! The plugin has been started ! The plugin ID is ") + pluginId + " !");
+            break;
+        default:
+            break;
+    }
+    return;
+}
+
+void VAS::vasPluginContext::stopPlugin(const std::string& pluginId) throw(VAS::vasException)
+{
+    if (m_pluginsMap.find(pluginId) == m_pluginsMap.end()) {
+        VAS_EXCEPTION_THROW(VAS::vasPluginContext, \
+            std::string("The plugin is not exists ! The plugin ID is ") + pluginId + " !");
+    }
+    VAS::vasPluginInfo_St &pluginInfo = m_pluginsMap.find(pluginId)->second;
+    
+    switch (pluginInfo._state) {
+        case VAS::VAS_PS_RUNNING:
             pluginInfo._pPlugin->stop();
-        }
-        
-        delete pluginInfo._pPlugin;
-        pluginInfo._pPlugin = nullptr;
-        
-        dlclose(pluginInfo._pHandle);
-        pluginInfo._pHandle = nullptr;
-        pluginInfo._pluginPath.clear();
-        pluginInfo._state = VAS::VAS_PS_UNINSTALLED;
-
-        rslt = true;
-        
-    } while (0);
-    return rslt;
-}
-
-bool VAS::vasPluginContext::startPlugin(const std::string &pluginId, std::string *pErrStr)
-{
-    VAS_EMPTY_STR_SET(pErrStr);
-    bool rslt = false;
-    do {
-        if (m_pluginsMap.find(pluginId) == m_pluginsMap.end()) {
-            VAS_ERROR_SET(pErrStr, "plugin is not exists !");
+            pluginInfo._state = VAS::VAS_PS_INSTALLED;
             break;
-        }
-        VAS::vasPluginInfo_St &pluginInfo = m_pluginsMap.find(pluginId)->second;
-        
-        switch (pluginInfo._state) {
-            case VAS::VAS_PS_INSTALLED:
-                pluginInfo._pPlugin->start();
-                pluginInfo._state = VAS::VAS_PS_RUNNING;
-                rslt = true;
-                break;
-            case VAS::VAS_PS_UNINSTALLED:
-                VAS_ERROR_SET(pErrStr, "start plugin failed ! the plugin is uninstalled !");
-                break;
-            case VAS::VAS_PS_RUNNING:
-                VAS_ERROR_SET(pErrStr, "start plugin failed ! the plugin has been started !");
-                break;
-            default:
-                break;
-        }
-        
-    } while (0);
-    return rslt;
-}
-
-bool VAS::vasPluginContext::stopPlugin(const std::string& pluginId, std::string *pErrStr)
-{
-    VAS_EMPTY_STR_SET(pErrStr);
-    bool rslt = false;
-    do {
-        if (m_pluginsMap.find(pluginId) == m_pluginsMap.end()) {
-            VAS_ERROR_SET(pErrStr, "plugin is not exists !");
+        case VAS::VAS_PS_INSTALLED:
+            VAS_EXCEPTION_THROW(VAS::vasPluginContext, \
+                std::string("Stop plugin failed ! The plugin is not started ! The plugin ID is ") + pluginId + " !");
             break;
-        }
-        VAS::vasPluginInfo_St &pluginInfo = m_pluginsMap.find(pluginId)->second;
-        
-        switch (pluginInfo._state) {
-            case VAS::VAS_PS_RUNNING:
-                pluginInfo._pPlugin->stop();
-                pluginInfo._state = VAS::VAS_PS_INSTALLED;
-                rslt = true;
-                break;
-            case VAS::VAS_PS_INSTALLED:
-                VAS_ERROR_SET(pErrStr, "stop plugin failed ! the plugin is not started !");
-                break;
-            case VAS::VAS_PS_UNINSTALLED:
-                VAS_ERROR_SET(pErrStr, "stop plugin failed ! the plugin is uninstalled !");
-                break;
-            default:
-                break;
-        }
-    } while (0);
-    return rslt;
+        case VAS::VAS_PS_UNINSTALLED:
+            VAS_EXCEPTION_THROW(VAS::vasPluginContext, \
+                std::string("Stop plugin failed ! The plugin is uninstalled ! The plugin ID is ") + pluginId + " !");
+            break;
+        default:
+            break;
+    }
+    return;
 }
 
-void VAS::vasPluginContext::triggerEvent(const std::string &eventGroupKey, VAS::vasProperty property)
+void VAS::vasPluginContext::triggerEvent(const std::string &eventGroupKey, VAS::vasProperty property) noexcept
 {
     m_pEventHandler->triggerEvent(eventGroupKey, property);
 }
 
-void VAS::vasPluginContext::triggerEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasProperty property)
+void VAS::vasPluginContext::triggerEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasProperty property) noexcept
 {
     m_pEventHandler->triggerEvent(eventGroupKey, eventKey, property);
 }
 
-void VAS::vasPluginContext::registEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasEvent event)
+void VAS::vasPluginContext::registEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasEvent event) noexcept
 {
     m_pEventHandler->registEvent(eventGroupKey, eventKey, event);
 }
 
-void VAS::vasPluginContext::unregistEvent(const std::string &eventGroupKey, const std::string &eventKey)
+void VAS::vasPluginContext::unregistEvent(const std::string &eventGroupKey, const std::string &eventKey) noexcept
 {
     m_pEventHandler->unregistEvent(eventGroupKey, eventKey);
 }
 
-bool VAS::vasPluginContext::registService(VAS::vasService *pSvc)
+bool VAS::vasPluginContext::registService(VAS::vasService *pSvc) noexcept
 {
     return m_pServiceHandler->registService(pSvc);
 }
 
-bool VAS::vasPluginContext::unregistService(VAS::vasService *pSvc)
+bool VAS::vasPluginContext::unregistService(VAS::vasService *pSvc) noexcept
 {
     return m_pServiceHandler->unregistService(pSvc);
 }

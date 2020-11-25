@@ -55,9 +55,9 @@ VAS_USER_INTERFACE_CLASS vasPlugin
 {
     VAS_DISABLED_COPY(vasPlugin)
 public:
-    vasPlugin(const std::string &pgId)
+    vasPlugin(const std::string &pgId) noexcept
         : m_pgId(pgId) {}
-    virtual ~vasPlugin() {}
+    virtual ~vasPlugin() noexcept {}
     
     /**
      * @brief  启动接口
@@ -75,7 +75,7 @@ public:
      * @brief  getPluginId 获取插件ID
      * @return std::string 插件ID
      */
-    const std::string &getPluginId() const { return m_pgId; }
+    const std::string &getPluginId() const noexcept { return m_pgId; }
     
 private:
     const std::string m_pgId;

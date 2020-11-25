@@ -1,17 +1,17 @@
 #include "vasEventHandler.h"
 #include "vasEvent.h"
 
-VAS::vasEventHandler::vasEventHandler()
+VAS::vasEventHandler::vasEventHandler() noexcept
 {
 
 }
 
-VAS::vasEventHandler::~vasEventHandler()
+VAS::vasEventHandler::~vasEventHandler() noexcept
 {
 
 }
 
-void VAS::vasEventHandler::triggerEvent(const std::string &eventGroupKey, VAS::vasProperty property)
+void VAS::vasEventHandler::triggerEvent(const std::string &eventGroupKey, VAS::vasProperty property) noexcept
 {
     std::unique_lock<std::mutex> lock(m_mutex);
     VAS::vasEventHandler::vasEventManager::iterator groupIt = m_eventMgr.find(eventGroupKey);
@@ -26,7 +26,7 @@ void VAS::vasEventHandler::triggerEvent(const std::string &eventGroupKey, VAS::v
     return;
 }
 
-void VAS::vasEventHandler::triggerEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasProperty property)
+void VAS::vasEventHandler::triggerEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasProperty property) noexcept
 {
     std::unique_lock<std::mutex> lock(m_mutex);
     VAS::vasEventHandler::vasEventManager::iterator groupIt = m_eventMgr.find(eventGroupKey);
@@ -44,7 +44,7 @@ void VAS::vasEventHandler::triggerEvent(const std::string &eventGroupKey, const 
     return;
 }
 
-void VAS::vasEventHandler::registEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasEvent event)
+void VAS::vasEventHandler::registEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasEvent event) noexcept
 {
     std::unique_lock<std::mutex> lock(m_mutex);
     VAS::vasEventHandler::vasEventGroup &group = m_eventMgr[eventGroupKey];
@@ -52,7 +52,7 @@ void VAS::vasEventHandler::registEvent(const std::string &eventGroupKey, const s
     return;
 }
 
-void VAS::vasEventHandler::unregistEvent(const std::string &eventGroupKey, const std::string &eventKey)
+void VAS::vasEventHandler::unregistEvent(const std::string &eventGroupKey, const std::string &eventKey) noexcept
 {
     std::unique_lock<std::mutex> lock(m_mutex);
     VAS::vasEventHandler::vasEventManager::iterator groupIt = m_eventMgr.find(eventGroupKey);

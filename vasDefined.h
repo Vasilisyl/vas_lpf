@@ -55,25 +55,6 @@
         ClassName() : VAS::vasService(svcId) {}
 #endif /*VAS_SERVICE*/
 
-/*error set*/
-#ifndef VAS_ERROR_SET
-    #define VAS_ERROR_SET(pStr, error) \
-        if (pStr && error) { *pStr = std::string("[ERROR] ") + error; }
-#endif /*VAS_ERROR_SET*/
-
-/*info set*/
-#ifndef VAS_INFO_SET
-    #define VAS_INFO_SET(pStr, info) \
-        if (pStr && info) { *pStr = std::string("[INFO] ") + info; }
-#endif /*VAS_INFO_SET*/
-
-/*empty string*/
-#ifndef VAS_EMPTY_STR_SET
-    #define VAS_EMPTY_STR_SET(pStr) \
-        if (pStr) { *pStr = std::string(""); }
-#endif /*VAS_EMPTY_STR_SET*/
-
-
 /**
  * @brief VAS_USER_INTERFACE_CLASS 接口类说明
  */

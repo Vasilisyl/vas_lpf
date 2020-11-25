@@ -18,15 +18,15 @@ VAS_PRIVATE_IMPL_CLASS vasEventHandler VAS_DISABLED_INHERIT
     VAS_DISABLED_COPY(vasEventHandler)
     VAS_DECLARE_FRIEND_CONTEXT
 
-    vasEventHandler();
-    ~vasEventHandler();
+    vasEventHandler() noexcept;
+    ~vasEventHandler() noexcept;
 
     /**
      * @brief  triggerEvent  触发事件，当事件触发时，对应事件组中的所有注册的事件将会被调用，并获得参数列表property
      * @param  eventGroupKey 事件组唯一键值，一个事件组中包含一个或多个事件
      * @param  property      触发事件时需要传递的参数列表，vasProperty中可填充多个参数对象，以不同的参数键值区分
      */
-    void triggerEvent(const std::string &eventGroupKey, VAS::vasProperty property);
+    void triggerEvent(const std::string &eventGroupKey, VAS::vasProperty property) noexcept;
 
     /**
      * @brief  triggerEvent  触发事件，当事件触发时，对应事件组中的所有注册的事件将会被调用，并获得参数列表property
@@ -34,7 +34,7 @@ VAS_PRIVATE_IMPL_CLASS vasEventHandler VAS_DISABLED_INHERIT
      * @param  eventKey      事件键值，在同一个事件组中，一个事件键值与一个事件一一对应
      * @param  property      触发事件时需要传递的参数列表，vasProperty中可填充多个参数对象，以不同的参数键值区分
      */
-    void triggerEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasProperty property);
+    void triggerEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasProperty property) noexcept;
 
     /**
      * @brief  registEvent    注册事件，当任何地方触发事件时，该事件组中的所有注册的事件将会被调用，并获得参数列表property
@@ -44,7 +44,7 @@ VAS_PRIVATE_IMPL_CLASS vasEventHandler VAS_DISABLED_INHERIT
      * @param  eventKey       事件键值，在同一个事件组中，一个事件键值与一个事件一一对应
      * @param  event          事件
      */
-    void registEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasEvent event);
+    void registEvent(const std::string &eventGroupKey, const std::string &eventKey, VAS::vasEvent event) noexcept;
 
     /**
      * @brief  unregistEvent  取消事件的注册，取消指定事件的注册
@@ -53,7 +53,7 @@ VAS_PRIVATE_IMPL_CLASS vasEventHandler VAS_DISABLED_INHERIT
      * @param  eventGroupKey  事件组唯一键值，一个事件组中包含一个或多个事件
      * @param  eventKey       事件键值，在同一个事件组中，一个事件键值与一个事件一一对应
      */
-    void unregistEvent(const std::string &eventGroupKey, const std::string &eventKey);
+    void unregistEvent(const std::string &eventGroupKey, const std::string &eventKey) noexcept;
 
 private:
 

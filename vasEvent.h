@@ -5,11 +5,13 @@
 
 namespace VAS {
 
+/*非成员函数构造事件*/
 #ifndef VAS_EVENT_G
     #define VAS_EVENT_G(func) \
         VAS::vasEvent(std::bind(func, std::placeholders::_1))
 #endif /*VAS_EVENT_G*/
 
+/*成员函数构造事件*/
 #ifndef VAS_EVENT_M
     #define VAS_EVENT_M(func, obj) \
         VAS::vasEvent(std::bind(func, obj, std::placeholders::_1))
